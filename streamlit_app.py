@@ -44,7 +44,7 @@ def horizontal_barplot(df, column):
     labels = list(scounts.index)
     sizes = list(scounts.values)
 
-    plt.figure(figsize=(8,len(labels)*.5))
+    fig = plt.figure(figsize=(8,len(labels)*.5))
     sns.set(style="darkgrid")
     sns.barplot(x=sizes, y=labels, color="b")
 
@@ -55,7 +55,7 @@ def horizontal_barplot(df, column):
     #plt.xlim(0, 1)
 
     # Show the plot
-    plt.show()
+    st.pyplot(fig)
 
     # get value counts and percentages of unique values in column 
     value_counts = df[column].value_counts(normalize=True)
