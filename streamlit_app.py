@@ -58,12 +58,12 @@ def horizontal_barplot(df, column):
     plt.show()
 
     # get value counts and percentages of unique values in column 
-    value_counts = df[columnName].value_counts(normalize=True)
+    value_counts = df[column].value_counts(normalize=True)
     value_counts = value_counts.mul(100).round(2).astype(str) + '%'
     value_counts.name = 'Percentage'
 
     # combine counts and percentages into a dataframe
-    result = pd.concat([df[columnName].value_counts(), value_counts], axis=1)
+    result = pd.concat([df[column].value_counts(), value_counts], axis=1)
     result.columns = ['Counts', 'Percentage']
     st.write(pd.DataFrame(result))    
 
