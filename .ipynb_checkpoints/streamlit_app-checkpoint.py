@@ -142,8 +142,8 @@ Chunking, also known as shallow parsing, involves grouping words into meaningful
 
     st.write('By combining POS tagging and chunking, we can extract relevant phrases or noun phrases related to course preferences. These extracted chunks can be further analyzed to identify popular subjects, specific course preferences, or academic disciplines that are frequently mentioned by participants.')
 
-if st.button('Run NLP Analysis'):
-    st.write('Show NLP results here')
+    if st.button('Run NLP Analysis'):
+        st.write('Show NLP results here')
     
 #run the app
 if __name__ == "__main__":
