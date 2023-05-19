@@ -117,6 +117,9 @@ def app():
     st.write('Distribution of First Priority and Sex')
     twoway_plot(df, 'First Priority', 'Sex')
     
+    st.write('Distribution of First Priority and Province')
+    twoway_plot(df, 'First Priority', 'Province')
+    
 #run the app
 if __name__ == "__main__":
     app()
