@@ -111,7 +111,9 @@ def app():
     st.write('Distribution By First Priority Course')
     horizontal_barplot(df, 'First Priority')
     
-
+    st.write('Distribution By Province')
+    horizontal_barplot(df, 'Province')
+    
 #run the app
 if __name__ == "__main__":
     app()
