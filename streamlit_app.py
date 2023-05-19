@@ -81,7 +81,7 @@ def createTable(df, columnName):
     
     return
 
-def twowayPlot(df, var1, var2):
+def twoway_plot(df, var1, var2):
     fig = plt.figure(figsize =(10, 3))
     p = sns.countplot(x=var1, data = df, hue=var2, palette='bright')
     _ = plt.setp(p.get_xticklabels(), rotation=90) 
@@ -113,6 +113,9 @@ def app():
     
     st.write('Distribution By Province')
     horizontal_barplot(df, 'Province')
+    
+    st.write('Distribution of First Priority and Sex')
+    twoway_plot(df, 'First Priority', 'Sex')
     
 #run the app
 if __name__ == "__main__":
