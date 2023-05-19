@@ -133,7 +133,7 @@ def app():
     st.write('POS Tagging:\n \
 POS tagging assigns part-of-speech tags to each word in a sentence or text. In the context of course preference analysis, POS tagging can help identify the grammatical roles and categories of words, allowing for a better understanding of the text. By applying POS tagging, you can extract relevant information such as course names, subjects, or academic disciplines mentioned in the text.')
 
-    st.write('For example, if a sentence mentions "I am interested in teaching english teaching courses," POS tagging would label "I" as a pronoun, "am" as a verb, "interested" as an adjective, "in" as a preposition, "teaching english" as a noun phrase, and "courses" as a noun. This tagging can help identify the subject of interest (teaching english) and the type of courses mentioned.')
+    st.write('For example, if a sentence mentions "I am interested in english teaching courses," POS tagging would label "I" as a pronoun, "am" as a verb, "interested" as an adjective, "in" as a preposition, "teaching english" as a noun phrase, and "courses" as a noun. This tagging can help identify the subject of interest (teaching english) and the type of courses mentioned.')
 
     st.write('Chunking:\n \
 Chunking, also known as shallow parsing, involves grouping words into meaningful phrases or chunks based on their grammatical structure. It helps extract higher-level syntactic units from the text. In the context of course preference analysis, chunking can be used to identify and extract phrases or noun phrases that provide insights into participants\' preferences.')
