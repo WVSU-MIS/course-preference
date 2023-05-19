@@ -120,6 +120,8 @@ def app():
     st.write('Distribution of First Priority and Province')
     twoway_plot(df, 'First Priority', 'Province')
     
+    st.subheader('Natural Language Processing (NLP)')
+    
     st.write('Natural Language Processing (NLP) methods were applied in the analysis of course preference data to extract insights from textual information provided by participants. Here are the NLP methods used in analyzing course preference data:')
 
     st.write('Text Preprocessing: Before applying NLP techniques, it\'s essential to preprocess the textual data. This typically involves tasks such as removing punctuation, converting text to lowercase, removing stopwords (common words like "the," "and," etc.), and performing stemming or lemmatization to reduce words to their root forms. This preprocessing step helps to standardize the text and improve the accuracy of subsequent NLP analyses.')
