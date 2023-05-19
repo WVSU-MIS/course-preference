@@ -38,6 +38,35 @@ def createPlots(df, columnName):
     
     return
 
+def horizontal_barplot(df, column):
+    # Create a horizontal bar plot
+    scounts=df[column].value_counts()
+    labels = list(scounts.index)
+    sizes = list(scounts.values)
+
+    plt.figure(figsize=(8,len(labels)*.5))
+    sns.set(style="darkgrid")
+    sns.barplot(x=sizes, y=labels, color="b")
+
+    # Set plot title and axis labels
+    plt.title("Horizontal Bar Plot")
+    plt.xlabel("No. of Respondents")
+    plt.ylabel(column)
+    #plt.xlim(0, 1)
+
+    # Show the plot
+    plt.show()
+
+    # get value counts and percentages of unique values in column 
+    value_counts = df[columnName].value_counts(normalize=True)
+    value_counts = value_counts.mul(100).round(2).astype(str) + '%'
+    value_counts.name = 'Percentage'
+
+    # combine counts and percentages into a dataframe
+    result = pd.concat([df[columnName].value_counts(), value_counts], axis=1)
+    result.columns = ['Counts', 'Percentage']
+    st.write(pd.DataFrame(result))    
+
 def createTable(df, columnName):  
     st.write('Graduate Distribution by ' + columnName)
     # get value counts and percentages of unique values in column 
@@ -80,7 +109,7 @@ def app():
     createPlots(df, 'Civil Status')
 
     st.write('Distribution By First Priority Course')
-    createPlots(df, 'First Priority')
+    horizontal_barplot(df, 'First Priority')
     
 
 #run the app
