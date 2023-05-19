@@ -79,7 +79,7 @@ def app():
     st.write('Distribution by Civil Status')
     createPlots(df, 'Civil Status')
 
-    st.write('Distribution By First Priority Course'):
+    st.write('Distribution By First Priority Course')
     createPlots(df, 'First Priority')
     
 
