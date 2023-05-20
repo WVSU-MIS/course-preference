@@ -231,7 +231,7 @@ Chunking, also known as shallow parsing, involves grouping words into meaningful
     if st.button('Run NLP Analysis'):
     # Display the notification in an editor
         notification = st_ace(
-            placeholder="Please be patient. This process is needs time to complete.",
+            placeholder="Please be patient. This process needs some time to complete.",
             language="text",
             readonly=True,
             key="notification-editor",
