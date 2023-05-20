@@ -24,7 +24,7 @@ import string
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('vader_lexicon')
-nltk.download('averaged_perceptron_tagger')'
+nltk.download('averaged_perceptron_tagger')
 
 #remove punctuations
 def remove_punctuations(text):            
