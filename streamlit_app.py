@@ -26,7 +26,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('vader_lexicon')
 nltk.download('averaged_perceptron_tagger')
-
+from streamlit_ace import st_ace
 
 #remove punctuations
 def remove_punctuations(text):            
@@ -229,6 +229,16 @@ Chunking, also known as shallow parsing, involves grouping words into meaningful
     st.write('By combining POS tagging and chunking, we can extract relevant phrases or noun phrases related to course preferences. These extracted chunks can be further analyzed to identify popular subjects, specific course preferences, or academic disciplines that are frequently mentioned by participants.')
 
     if st.button('Run NLP Analysis'):
+    # Display the notification in an editor
+        notification = st_ace(
+            placeholder="Please be patient. This process is needs time to complete.",
+            language="text",
+            readonly=True,
+            key="notification-editor",
+            height=200,
+        )        
+        st.info(notification)
+        
         data = df[['Reason']]
         data['Reason']=data['Reason'].astype(str).apply(remove_punctuations)  
         data['Reason']=data['Reason'].astype(str).apply(lemmatize_text)
