@@ -6,6 +6,42 @@ import altair as alt
 import matplotlib.pyplot as plt
 import seaborn as sns
 from PIL import Image
+from textblob import TextBlob
+from nltk.tokenize.toktok import ToktokTokenizer
+import re
+from wordcloud import WordCloud
+from collections import Counter
+tokenizer = ToktokTokenizer()
+import spacy
+nlp = spacy.load('en_core_web_sm', disable=['ner'])
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.sentiment import SentimentIntensityAnalyzer
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+import string
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('vader_lexicon')
+nltk.download('averaged_perceptron_tagger')'
+
+#remove punctuations
+def remove_punctuations(text):            
+    import string
+    for punctuation in string.punctuation:
+        text = text.replace(punctuation, '')
+    return text
+
+#lemmatize the text
+def lemmatize_text(text):
+    text = nlp(text)
+    text = ' '.join([word.lemma_ if word.lemma_ != '-PRON-' else \
+                     word.text for word in text])
+    return text
+
+
+
 
 def loadcsvfile():
     csvfile = 'coe-course-prefs.csv'
@@ -37,6 +73,54 @@ def createPlots(df, columnName):
     st.write(pd.DataFrame(result))
     
     return
+
+# Step 1: Preprocess the responses
+def preprocess_response(response):
+    response = response.lower()
+    response = response.translate(str.maketrans('', '', string.punctuation))
+    tokens = word_tokenize(response)
+    stop_words = set(stopwords.words('english'))
+    tokens = [token for token in tokens if token not in stop_words]
+    
+    return tokens
+
+# Step 2: Perform sentiment analysis
+def perform_sentiment_analysis(response):
+    sia = SentimentIntensityAnalyzer()
+    sentiment_score = sia.polarity_scores(response)['compound']
+    return sentiment_score
+
+# Step 3: Extract relevant keywords or phrases
+def extract_keywords(response):
+    #tokens = word_tokenize(response)
+    #tokens=response
+
+    #grammar = r'Chunk: {<JJ>*<NN>+}
+    grammar =r'''
+            Chunk: {<JJ>*<NN>+}  
+                   {<JJ>*<NN>+}
+                   {<IN><NP>}
+                   {<DT>?<JJ>*<NN.*>+}
+            '''
+    chunk_parser = nltk.RegexpParser(grammar)
+    tagged_tokens = nltk.pos_tag(response)
+    tree = chunk_parser.parse(tagged_tokens)
+    phrases = [' '.join([token for token, pos in subtree.leaves()]) for subtree in tree.subtrees() if subtree.label() == 'Chunk']
+    return phrases
+
+# Step 4: Create a frequency distribution
+def create_frequency_distribution(responses):
+    keywords = []
+    for response in responses:
+        keywords.extend(extract_keywords(response))
+    
+    fdist = FreqDist(keywords)
+    return fdist
+
+# Step 5: Select the top 5 reasons
+def get_top_reasons(fdist):
+    top_reasons = fdist.most_common(25)
+    return top_reasons
 
 def horizontal_barplot(df, column):
     # Create a horizontal bar plot
@@ -143,8 +227,43 @@ Chunking, also known as shallow parsing, involves grouping words into meaningful
     st.write('By combining POS tagging and chunking, we can extract relevant phrases or noun phrases related to course preferences. These extracted chunks can be further analyzed to identify popular subjects, specific course preferences, or academic disciplines that are frequently mentioned by participants.')
 
     if st.button('Run NLP Analysis'):
-        st.write('Show NLP results here')
-    
+        data = df[['Reason']]
+        data['Reason']=data['Reason'].apply(remove_punctuations)  
+        data['Reason']=data['Reason'].apply(lemmatize_text)
+        
+        survey_responses = data['Reason'].tolist()
+
+        # Preprocess responses
+        preprocessed_responses = [preprocess_response(response) for response in survey_responses]
+
+        # Perform sentiment analysis
+        sentiment_scores = [perform_sentiment_analysis(response) for response in survey_responses]
+
+        # Extract keywords from positive sentiment responses
+        positive_responses = [response for response, score in zip(preprocessed_responses, sentiment_scores) if score > 0]
+        keywords_fdist = create_frequency_distribution(positive_responses)
+
+        # Get the top 5 reasons
+        top_reasons = get_top_reasons(keywords_fdist)
+
+        df = pd.DataFrame(top_reasons)
+
+        sns.set_context('notebook', font_scale= 1)
+        fig = plt.figure(figsize=(8,4))
+        sns.barplot(y = df[0], x= df[1], palette= 'bright')
+        plt.title("Most Commonly Used Words")
+        plt.xlabel("Frequency")
+        plt.ylabel("Words")
+        st.pyplot(fig)
+
+        text = ' '.join(survey_responses)
+
+        fig = plt.figure(figsize = (8, 4))
+        wordcloud = WordCloud(max_words=500, height= 800, width = 1500,  background_color="black", colormap= 'viridis').generate(text)
+        plt.imshow(wordcloud, interpolation="bilinear")
+        plt.axis('off')
+        st.pyplot(fig)
+
 #run the app
 if __name__ == "__main__":
     app()
