@@ -25,6 +25,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('vader_lexicon')
 nltk.download('averaged_perceptron_tagger')
+spacy.cli.download("en_core_web_sm")
 
 #remove punctuations
 def remove_punctuations(text):            
