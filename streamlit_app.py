@@ -230,14 +230,7 @@ Chunking, also known as shallow parsing, involves grouping words into meaningful
 
     if st.button('Run NLP Analysis'):
     # Display the notification in an editor
-        notification = st_ace(
-            placeholder="Please be patient. This process needs some time to complete.",
-            language="text",
-            readonly=True,
-            key="notification-editor",
-            height=200,
-        )        
-        st.info(notification)
+        st.write('Please be patient. This is a compute intensive process.')
         
         data = df[['Reason']]
         data['Reason']=data['Reason'].astype(str).apply(remove_punctuations)  
