@@ -6,4 +6,5 @@ seaborn
 numpy
 Pillow
 textblob
+wordcloud
 
