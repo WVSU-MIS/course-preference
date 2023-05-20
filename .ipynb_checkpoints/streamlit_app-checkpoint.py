@@ -13,6 +13,7 @@ from wordcloud import WordCloud
 from collections import Counter
 tokenizer = ToktokTokenizer()
 import spacy
+spacy.cli.download("en_core_web_sm")
 nlp = spacy.load('en_core_web_sm', disable=['ner'])
 
 import nltk
@@ -25,7 +26,7 @@ nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('vader_lexicon')
 nltk.download('averaged_perceptron_tagger')
-spacy.cli.download("en_core_web_sm")
+
 
 #remove punctuations
 def remove_punctuations(text):            
